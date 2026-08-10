@@ -4,6 +4,8 @@
 **Program**: 3MTT (3 Million Technical Talent) Program  
 **Track**: Cybersecurity & Systems Hardening  
 **Project Title**: Access Control Audit & Least Privilege Evaluation Platform  
+**Live Render URL**: [https://access-audit-kasim.onrender.com](https://access-audit-kasim.onrender.com)  
+**Health Status Endpoint**: [https://access-audit-kasim.onrender.com/health](https://access-audit-kasim.onrender.com/health)  
 
 ---
 
@@ -18,17 +20,27 @@ The **Access Control Audit Platform** (`AccessAudit`) systematically evaluates r
 
 ---
 
-## 🏗️ Technology Architecture
+## 🔑 Evaluator Test Credentials
 
-- **Backend**: Python 3, Flask, SQLAlchemy ORM, Flask-Login
-- **Frontend**: HTML5, Vanilla CSS, Bootstrap 5, Chart.js
-- **Document Generation**: ReportLab PDF, CSV
-- **Testing**: PyTest (Automated Test Suite)
-- **Deployment**: Gunicorn WSGI, PostgreSQL / SQLite
+- **Live Application**: [https://access-audit-kasim.onrender.com](https://access-audit-kasim.onrender.com)
+- **Auditor Admin Username**: `abba_auditor` *(or `abba@accessaudit.local`)*
+- **Auditor Admin Password**: `AuditAdminPassword123!`
 
 ---
 
-## 🚀 Quick Start Instructions
+## 🏗️ Technology Architecture
+
+- **Backend**: Python 3, Flask, SQLAlchemy ORM, Flask-Login
+- **Production Server (WSGI)**: Gunicorn 26.0.0
+- **Database Engine**: Render PostgreSQL (Production) / SQLite (Local)
+- **Frontend & Visuals**: HTML5, Vanilla CSS, Bootstrap 5, Chart.js
+- **Document Generation**: ReportLab PDF, Python CSV Module
+- **Automated Testing**: PyTest (100% Pass Rate across 5 Test Modules)
+- **Cloud Hosting**: Render Web Services
+
+---
+
+## 🚀 Quick Start (Local Development)
 
 1. **Navigate to Project Directory**:
    ```bash
@@ -45,17 +57,5 @@ The **Access Control Audit Platform** (`AccessAudit`) systematically evaluates r
    python run.py
    ```
 
-4. **Access Portal**:
+4. **Access Local Portal**:
    - Open browser to `http://127.0.0.1:5001`
-   - **Lead Auditor Credentials**:
-     - **Username**: `abba_auditor`
-     - **Password**: `AuditAdminPassword123!`
-
----
-
-## 🧪 Automated PyTest Suite
-
-Run the full automated unit test suite:
-```bash
-python -m pytest -v
-```
