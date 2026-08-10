@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Interactive Security Quiz — CyberAware{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-3">
+  <div class="col-lg-9">
+    
+    <!-- Timer & Progress Bar Header -->
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <div>
+        <span class="badge bg-primary px-3 py-2 fs-6 rounded-pill" id="questionTracker">Question 1 of {{ questions_payload|length }}</span>
+      </div>
+      <div class="quiz-timer-container shadow-sm">
+        <i class="bi bi-stopwatch text-warning"></i>
+        <span id="timerDisplay">05:00</span>
+      </div>
+    </div>
+
+    <!-- Progress Bar -->
+    <div class="progress progress-custom mb-4">
+      <div class="progress-bar progress-bar-custom" id="quizProgressBar" role="progressbar" style="width: 10%;"></div>
+    </div>
+
+    <!-- Quiz Form -->
+    <form id="quizForm" method="POST" action="{{ url_for('quiz.submit_quiz', attempt_id=attempt.id) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+      <input type="hidden" name="time_spent" id="timeSpentInput" value="0">
+
+      {% for q in questions_payload %}
+        <div class="question-step glass-card p-4 mb-4" id="step-{{ loop.index0 }}" style="display: {% if loop.first %}block{% else %}none{% endif %};">
+          
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <span class="badge bg-secondary-subtle text-primary border border-primary-subtle px-3 py-1">
+              <i class="bi bi-tag-fill me-1"></i> {{ q.category }}
+            </span>
+            <span class="badge {% if q.difficulty == 'EASY' %}bg-success{% elif q.difficulty == 'MEDIUM' %}bg-warning{% else %}bg-danger{% endif %}">
+              {{ q.difficulty }}
+            </span>
+          </div>
+
+          <h4 class="fw-bold mb-4" style="line-height: 1.4;">
+            {{ loop.index }}. {{ q.question_text }}
+          </h4>
+
+          <div class="options-group d-grid gap-3">
+            {% for opt in q.options %}
+              <label class="option-card">
+                <input type="radio" name="question_{{ q.id }}" value="{{ opt.id }}">
+                <span class="fw-medium text-dark">{{ opt.text }}</span>
+              </label>
+            {% endfor %}
+          </div>
+        </div>
+      {% endfor %}
+
+      <!-- Action Navigation Buttons -->
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <button type="button" id="prevBtn" class="btn btn-outline-secondary px-4 fw-semibold" style="display: none;">
+          <i class="bi bi-arrow-left me-1"></i> Previous
+        </button>
+
+        <button type="button" id="nextBtn" class="btn btn-primary px-4 fw-semibold shadow ms-auto">
+          Next Question <i class="bi bi-arrow-right ms-1"></i>
+        </button>
+
+        <button type="submit" id="submitBtn" class="btn btn-success btn-lg px-5 fw-bold shadow ms-auto" style="display: none;">
+          <i class="bi bi-check-circle-fill me-1"></i> Submit Assessment
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/quiz_timer.js') }}"></script>
+{% endblock %}

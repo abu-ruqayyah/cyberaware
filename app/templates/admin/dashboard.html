@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block title %}Admin Command Center — CyberAware{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="fw-bold mb-1"><i class="bi bi-speedometer2 text-primary me-2"></i> Trainer Command Center</h2>
+    <p class="text-muted small mb-0">Overview of staff security awareness training, quiz analytics, and weakness heatmaps</p>
+  </div>
+  <div>
+    <a href="{{ url_for('admin.question_create') }}" class="btn btn-primary shadow-sm"><i class="bi bi-plus-lg me-1"></i> Add Question</a>
+    <a href="{{ url_for('reports.export_csv') }}" class="btn btn-outline-success ms-2 shadow-sm"><i class="bi bi-file-earmark-spreadsheet me-1"></i> Export CSV</a>
+  </div>
+</div>
+
+<!-- Key Performance Metrics Row -->
+<div class="row g-3 mb-4">
+  <div class="col-md-3">
+    <div class="glass-card p-3 stat-card">
+      <div class="text-muted small fw-semibold">Staff Participants</div>
+      <div class="display-6 fw-bold text-dark mt-1">{{ total_users }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="glass-card p-3 stat-card success">
+      <div class="text-muted small fw-semibold">Question Bank Size</div>
+      <div class="display-6 fw-bold text-dark mt-1">{{ total_questions }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="glass-card p-3 stat-card warning">
+      <div class="text-muted small fw-semibold">Completed Attempts</div>
+      <div class="display-6 fw-bold text-dark mt-1">{{ total_attempts }}</div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <div class="glass-card p-3 stat-card danger">
+      <div class="text-muted small fw-semibold">Average Org Score</div>
+      <div class="display-6 fw-bold text-dark mt-1">{{ avg_score }}%</div>
+    </div>
+  </div>
+</div>
+
+<!-- Charts & Tables Row -->
+<div class="row g-4 mb-4">
+  <div class="col-lg-6">
+    <div class="glass-card p-4 h-100">
+      <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart text-primary me-2"></i> Question Bank Distribution</h5>
+      <canvas id="categoryChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <div class="col-lg-6">
+    <div class="glass-card p-4 h-100">
+      <h5 class="fw-bold mb-3"><i class="bi bi-clock-history text-primary me-2"></i> Recent Assessment Attempts</h5>
+      {% if recent_attempts %}
+        <div class="table-responsive">
+          <table class="table table-hover align-middle small">
+            <thead>
+              <tr>
+                <th>Participant</th>
+                <th>Score</th>
+                <th>Classification</th>
+                <th>Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for att in recent_attempts %}
+                <tr>
+                  <td><b>{{ att.user.full_name if att.user else 'Deleted' }}</b></td>
+                  <td><span class="badge bg-secondary">{{ att.percentage_score }}%</span></td>
+                  <td><small>{{ att.assessment_level or 'Pending' }}</small></td>
+                  <td>{{ att.completed_at.strftime('%m-%d %H:%M') if att.completed_at else 'In Progress' }}</td>
+                  <td>
+                    {% if att.status == 'COMPLETED' %}
+                      <a href="{{ url_for('reports.download_attempt_pdf', attempt_id=att.id) }}" class="btn btn-sm btn-outline-danger py-0 px-2" title="Download PDF Report"><i class="bi bi-file-pdf"></i> PDF</a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-muted">No quiz attempts recorded yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('categoryChart');
+    if (ctx) {
+      const catNames = [{% for m in cat_metrics %}"{{ m.name }}",{% endfor %}];
+      const catCounts = [{% for m in cat_metrics %}{{ m.question_count }},{% endfor %}];
+
+      new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: catNames,
+          datasets: [{
+            data: catCounts,
+            backgroundColor: [
+              '#2563eb', '#3b82f6', '#10b981', '#f59e0b', '#ef4444',
+              '#8b5cf6', '#ec4899', '#6366f1', '#14b8a6', '#f97316'
+            ]
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'right' }
+          }
+        }
+      });
+    }
+  });
+</script>
+{% endblock %}

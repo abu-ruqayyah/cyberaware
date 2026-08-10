@@ -1,0 +1,23 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+*.egg-info/
+.pytest_cache/
+
+# Environment & Secrets
+.env
+
+# Instance Data & Protected Uploads
+instance/*
+!instance/.gitkeep
+instance/uploads/*
+!instance/uploads/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+.DS_Store

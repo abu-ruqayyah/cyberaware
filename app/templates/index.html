@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %}CyberAware — Gamified Security Awareness Platform{% endblock %}
+
+{% block content %}
+<div class="row align-items-center my-4 py-4">
+  <div class="col-lg-7">
+    <span class="badge bg-primary-subtle text-primary border border-primary-subtle px-3 py-2 rounded-pill fw-semibold mb-3">
+      <i class="bi bi-shield-check me-1"></i> Interactive Cybersecurity Training
+    </span>
+    <h1 class="display-4 fw-bold text-dark mb-3">
+      Engaging Security Training & Gamified Assessment
+    </h1>
+    <p class="lead text-secondary mb-4">
+      Transform staff security awareness training into an interactive quiz and badge achievement platform. Evaluate staff risk across 12 critical security domains with server-validated scoring, weakness detection, and automated reporting.
+    </p>
+    
+    <div class="d-flex flex-wrap gap-3 mb-4">
+      {% if current_user.is_authenticated %}
+        {% if current_user.is_admin %}
+          <a href="{{ url_for('admin.dashboard') }}" class="btn btn-primary btn-lg px-4 shadow">
+            <i class="bi bi-speedometer2 me-2"></i> Admin Command Center
+          </a>
+        {% else %}
+          <a href="{{ url_for('quiz.start_quiz') }}" class="btn btn-primary btn-lg px-4 shadow">
+            <i class="bi bi-controller me-2"></i> Start Security Quiz
+          </a>
+        {% endif %}
+        <a href="{{ url_for('lab.index') }}" class="btn btn-outline-dark btn-lg px-4">
+          <i class="bi bi-terminal me-2"></i> View Cybersecurity Lab
+        </a>
+      {% else %}
+        <a href="{{ url_for('auth.login') }}" class="btn btn-primary btn-lg px-4 shadow">
+          <i class="bi bi-box-arrow-in-right me-2"></i> Log In to Portal
+        </a>
+        <a href="{{ url_for('auth.register') }}" class="btn btn-outline-primary btn-lg px-4">
+          <i class="bi bi-person-plus me-2"></i> Self-Identify / Register
+        </a>
+      {% endif %}
+    </div>
+  </div>
+
+  <div class="col-lg-5">
+    <div class="glass-card p-4 text-center">
+      <div class="p-3 bg-primary bg-gradient text-white rounded-4 mb-3 d-inline-block shadow">
+        <i class="bi bi-shield-lock fs-1"></i>
+      </div>
+      <h3 class="fw-bold mb-2">12 Core Security Domains</h3>
+      <p class="text-muted small mb-3">Password Hygiene, Phishing, Social Engineering, MFA, Ransomware, Safe Browsing & Data Protection</p>
+
+      <div class="row g-2 text-start">
+        <div class="col-6">
+          <div class="p-2 border rounded bg-light d-flex align-items-center">
+            <i class="bi bi-check-circle-fill text-success me-2"></i> <span class="small fw-semibold">Server-Side Scoring</span>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="p-2 border rounded bg-light d-flex align-items-center">
+            <i class="bi bi-check-circle-fill text-success me-2"></i> <span class="small fw-semibold">ReportLab PDF Reports</span>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="p-2 border rounded bg-light d-flex align-items-center">
+            <i class="bi bi-check-circle-fill text-success me-2"></i> <span class="small fw-semibold">Full Audit Logging</span>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="p-2 border rounded bg-light d-flex align-items-center">
+            <i class="bi bi-check-circle-fill text-success me-2"></i> <span class="small fw-semibold">Safe Lab Evidence</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Methodology Highlights -->
+<div class="row g-4 my-4">
+  <div class="col-md-6">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center mb-3">
+        <div class="p-2 bg-info-subtle text-info rounded-3 me-3">
+          <i class="bi bi-diagram-3 fs-3"></i>
+        </div>
+        <div>
+          <h4 class="mb-0">Assessment Methodology</h4>
+          <small class="text-muted">Staff Awareness Evaluation Workflow</small>
+        </div>
+      </div>
+      <p class="text-secondary small">
+        Question Bank → Randomized Quiz → Server-Side Scoring → Category Weakness Analysis → Awareness Risk Classification (90-100% Excellent to <60% High Risk) → Remediation Report.
+      </p>
+      <a href="{{ url_for('methodology.assessment_methodology') }}" class="btn btn-sm btn-outline-info">Read Assessment Workflow <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="glass-card p-4 h-100">
+      <div class="d-flex align-items-center mb-3">
+        <div class="p-2 bg-danger-subtle text-danger rounded-3 me-3">
+          <i class="bi bi-shield-shaded fs-3"></i>
+        </div>
+        <div>
+          <h4 class="mb-0">Technical Cybersecurity Lab</h4>
+          <small class="text-muted">Authorized Defensive Assessment</small>
+        </div>
+      </div>
+      <p class="text-secondary small">
+        Authorized Lab → Observation → Traffic Analysis → Vulnerability Scan → Finding → Risk Rating → Hardening → Retest → Evidence Upload.
+      </p>
+      <a href="{{ url_for('methodology.lab_methodology') }}" class="btn btn-sm btn-outline-danger">Read Technical Lab Workflow <i class="bi bi-arrow-right"></i></a>
+    </div>
+  </div>
+</div>
+{% endblock %}

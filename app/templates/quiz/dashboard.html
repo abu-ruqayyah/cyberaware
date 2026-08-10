@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block title %}Staff Portal — CyberAware{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="fw-bold mb-1">Welcome back, {{ current_user.full_name }}! 👋</h2>
+    <p class="text-muted small mb-0">Department: <b>{{ current_user.department }}</b> | Staff Security Assessment Portal</p>
+  </div>
+  <a href="{{ url_for('quiz.start_quiz') }}" class="btn btn-primary btn-lg shadow"><i class="bi bi-controller me-2"></i> Start Training Quiz</a>
+</div>
+
+<!-- Stats Row -->
+<div class="row g-3 mb-4">
+  <div class="col-md-4">
+    <div class="glass-card p-3 stat-card success">
+      <div class="text-muted small fw-semibold">Personal Best Score</div>
+      <div class="display-6 fw-bold text-success mt-1">{{ best_score }}%</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="glass-card p-3 stat-card">
+      <div class="text-muted small fw-semibold">Average Score</div>
+      <div class="display-6 fw-bold text-primary mt-1">{{ avg_score }}%</div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <div class="glass-card p-3 stat-card warning">
+      <div class="text-muted small fw-semibold">Completed Assessments</div>
+      <div class="display-6 fw-bold text-dark mt-1">{{ attempts|length }}</div>
+    </div>
+  </div>
+</div>
+
+<!-- Badges Showcase -->
+<div class="glass-card p-4 mb-4">
+  <h5 class="fw-bold mb-3"><i class="bi bi-award text-warning me-2"></i> Earned Achievements & Badges</h5>
+  {% if user_badges %}
+    <div class="row g-3">
+      {% for ub in user_badges %}
+        <div class="col-md-3">
+          <div class="badge-card">
+            <i class="bi {{ ub.badge.badge_icon }} badge-icon-lg"></i>
+            <h6 class="fw-bold mb-1">{{ ub.badge.name }}</h6>
+            <p class="text-muted small mb-0">{{ ub.badge.description }}</p>
+            <span class="badge bg-light text-dark border mt-2">Earned {{ ub.earned_at.strftime('%b %d, %Y') }}</span>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-muted mb-0">No badges earned yet. Complete security quizzes to unlock achievement badges!</p>
+  {% endif %}
+</div>
+
+<!-- Recent Attempts -->
+<div class="glass-card p-4">
+  <h5 class="fw-bold mb-3"><i class="bi bi-clock-history text-primary me-2"></i> Assessment History</h5>
+  {% if attempts %}
+    <div class="table-responsive">
+      <table class="table table-hover align-middle">
+        <thead>
+          <tr>
+            <th>Attempt ID</th>
+            <th>Date Completed</th>
+            <th>Questions</th>
+            <th>Score</th>
+            <th>Percentage</th>
+            <th>Awareness Classification</th>
+            <th>Report</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for att in attempts %}
+            <tr>
+              <td><b>#{{ att.id }}</b></td>
+              <td>{{ att.completed_at.strftime('%Y-%m-%d %H:%M') if att.completed_at else 'In Progress' }}</td>
+              <td>{{ att.total_questions }}</td>
+              <td><b>{{ att.score_achieved }}</b> / {{ att.total_questions }}</td>
+              <td><span class="badge bg-primary fs-6">{{ att.percentage_score }}%</span></td>
+              <td><span class="badge bg-secondary-subtle text-dark border">{{ att.assessment_level }}</span></td>
+              <td>
+                <a href="{{ url_for('reports.download_attempt_pdf', attempt_id=att.id) }}" class="btn btn-sm btn-outline-danger"><i class="bi bi-file-pdf"></i> Download PDF</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-muted">You have not completed any quizzes yet. Click "Start Training Quiz" to begin!</p>
+  {% endif %}
+</div>
+{% endblock %}

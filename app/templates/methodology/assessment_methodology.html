@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Assessment Methodology — CyberAware{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+  <div class="col-lg-10">
+    <div class="glass-card p-4 mb-4">
+      <h2 class="fw-bold mb-2"><i class="bi bi-diagram-3 text-primary me-2"></i> Security Awareness Assessment Methodology</h2>
+      <p class="text-muted">Academic framework for evaluating staff cybersecurity awareness and calculating organizational risk</p>
+      <hr>
+
+      <!-- Workflow Diagram Box -->
+      <div class="p-4 bg-dark text-light rounded-4 mb-4 text-center">
+        <h5 class="fw-bold text-info mb-3"><i class="bi bi-arrow-right-square me-2"></i> End-to-End Assessment Pipeline</h5>
+        <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 font-monospace small">
+          <span class="badge bg-primary p-2">1. Question Bank</span> →
+          <span class="badge bg-primary p-2">2. Randomized Quiz</span> →
+          <span class="badge bg-primary p-2">3. Staff Answers</span> →
+          <span class="badge bg-danger p-2">4. Server-Side Scoring</span> →
+          <span class="badge bg-warning text-dark p-2">5. Category Analysis</span> →
+          <span class="badge bg-info text-dark p-2">6. Awareness Classification</span> →
+          <span class="badge bg-success p-2">7. Remediation & Report</span>
+        </div>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="border p-3 rounded bg-white">
+            <h5 class="fw-bold text-primary mb-2">1. Server-Side Scoring Enforcement</h5>
+            <p class="small text-secondary mb-0">
+              To prevent client-side tampering, JavaScript is restricted to UI interactions, countdown timers, and progress bars. Answer keys are retained exclusively on the server where <code>scoring.py</code> evaluates accuracy against database records.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="border p-3 rounded bg-white">
+            <h5 class="fw-bold text-primary mb-2">2. Category Weakness Mapping</h5>
+            <p class="small text-secondary mb-0">
+              Questions are categorized across 12 domains (Password Security, Phishing, Social Engineering, MFA, Ransomware, Safe Browsing, etc.). Performance is aggregated per category to identify targeted organizational vulnerabilities.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="border p-3 rounded bg-white">
+            <h5 class="fw-bold text-primary mb-2">3. Risk Classification Tiers</h5>
+            <ul class="small text-secondary mb-0">
+              <li><b>90 – 100%:</b> Excellent (*Low Awareness Risk*)</li>
+              <li><b>80 – 89%:</b> Very Good (*Moderate-Low Risk*)</li>
+              <li><b>70 – 79%:</b> Good (*Acceptable Threshold*)</li>
+              <li><b>60 – 69%:</b> Needs Improvement (*Elevated Awareness Risk*)</li>
+              <li><b>Below 60%:</b> High Awareness Risk (*Critical Risk*)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="border p-3 rounded bg-white">
+            <h5 class="fw-bold text-primary mb-2">4. Automated Reporting</h5>
+            <p class="small text-secondary mb-0">
+              Every completed attempt triggers <code>ReportLab</code> PDF certificate compilation into protected non-public storage (<code>instance/uploads/reports/</code>) alongside CSV export functionality for security trainers.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}System Audit Logs — CyberAware{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="fw-bold mb-1"><i class="bi bi-journal-text text-primary me-2"></i> Security Audit Logs</h2>
+    <p class="text-muted small mb-0">Immutable records of system authentication, administrative actions, and quiz operations</p>
+  </div>
+  <span class="badge bg-dark px-3 py-2"><i class="bi bi-shield-lock me-1"></i> Credential Leak Protection Active</span>
+</div>
+
+<div class="glass-card p-4">
+  {% if logs %}
+    <div class="table-responsive">
+      <table class="table table-hover align-middle small">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Event Type</th>
+            <th>Actor</th>
+            <th>Role</th>
+            <th>Description</th>
+            <th>IP Address</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for log in logs %}
+            <tr>
+              <td><code>{{ log.timestamp.strftime('%Y-%m-%d %H:%M:%S') }}</code></td>
+              <td>
+                <span class="badge {% if 'LOGIN' in log.event_type %}bg-info{% elif 'DELETED' in log.event_type %}bg-danger{% elif 'CREATED' in log.event_type or 'UPLOADED' in log.event_type %}bg-success{% else %}bg-secondary{% endif %}">
+                  {{ log.event_type }}
+                </span>
+              </td>
+              <td><b>{{ log.user.username if log.user else 'System / Anonymous' }}</b></td>
+              <td><small class="text-muted">{{ log.user_role or 'ANONYMOUS' }}</small></td>
+              <td>{{ log.description }}</td>
+              <td><code>{{ log.ip_address }}</code></td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="text-muted text-center py-4">No audit log entries recorded yet.</p>
+  {% endif %}
+</div>
+{% endblock %}

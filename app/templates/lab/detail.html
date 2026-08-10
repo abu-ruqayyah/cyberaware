@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}{{ evidence.title }} — Cybersecurity Lab Evidence{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+  <div class="col-lg-10">
+    <div class="glass-card p-4 mb-4">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <a href="{{ url_for('lab.index') }}" class="btn btn-outline-secondary btn-sm"><i class="bi bi-arrow-left me-1"></i> Back to Lab Evidence</a>
+        <span class="badge {% if evidence.risk == 'CRITICAL' or evidence.risk == 'HIGH' %}bg-danger{% elif evidence.risk == 'MEDIUM' %}bg-warning text-dark{% else %}bg-success{% endif %} fs-6 px-3 py-2">
+          {{ evidence.risk }} Risk Level
+        </span>
+      </div>
+
+      <h2 class="fw-bold text-dark mb-2">{{ evidence.title }}</h2>
+      <div class="text-muted small mb-4">
+        Category: <b>{{ evidence.category }}</b> | Tool: <b>{{ evidence.tool }}</b> | Target: <code>{{ evidence.target_environment }}</code> | Date: <b>{{ evidence.date_performed.strftime('%Y-%m-%d') }}</b>
+      </div>
+
+      <div class="row g-4 mb-4">
+        <div class="col-md-6">
+          <div class="p-3 border rounded bg-light">
+            <h6 class="fw-bold text-primary mb-2"><i class="bi bi-card-text me-1"></i> Description</h6>
+            <p class="small text-secondary mb-0">{{ evidence.description }}</p>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="p-3 border rounded bg-light">
+            <h6 class="fw-bold text-danger mb-2"><i class="bi bi-bug me-1"></i> Technical Finding</h6>
+            <p class="small text-secondary mb-0">{{ evidence.finding }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h5 class="fw-bold text-dark mb-2"><i class="bi bi-shield-check text-success me-2"></i> Defensive Recommendation</h5>
+        <div class="p-3 border-start border-4 border-success bg-white shadow-sm rounded">
+          <p class="mb-0 text-dark small">{{ evidence.recommendation }}</p>
+        </div>
+      </div>
+
+      <div class="mb-4">
+        <h5 class="fw-bold text-dark mb-2"><i class="bi bi-wrench-adjustable text-info me-2"></i> Hardening & Remediation Implemented</h5>
+        <div class="p-3 border-start border-4 border-info bg-white shadow-sm rounded">
+          <p class="mb-0 text-dark small">{{ evidence.remediation }}</p>
+        </div>
+      </div>
+
+      <div class="p-3 border rounded bg-dark text-light d-flex justify-content-between align-items-center">
+        <div>
+          <i class="bi bi-file-earmark-lock fs-3 me-3 text-warning"></i>
+          <span>Evidence Artifact File: <code>{{ evidence.evidence_file }}</code></span>
+          <br>
+          <small class="text-muted">Stored in non-public protected location: <code>instance/uploads/lab_evidence/</code></small>
+        </div>
+        <a href="{{ url_for('lab.download_file', id=evidence.id) }}" class="btn btn-warning fw-semibold shadow-sm">
+          <i class="bi bi-download me-1"></i> Download Evidence File
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

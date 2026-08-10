@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard — CyberAware{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+  <div class="col-lg-8">
+    <div class="glass-card p-4">
+      <div class="text-center mb-4">
+        <div class="p-3 bg-warning bg-gradient text-dark rounded-circle d-inline-block mb-2 shadow">
+          <i class="bi bi-trophy-fill fs-1"></i>
+        </div>
+        <h2 class="fw-bold">Security Leaderboard</h2>
+        <p class="text-muted small">Top staff participants ranked by personal best score percentage</p>
+      </div>
+
+      {% if top_staff %}
+        <div class="table-responsive">
+          <table class="table table-hover align-middle">
+            <thead>
+              <tr>
+                <th style="width: 70px;">Rank</th>
+                <th>Staff Participant</th>
+                <th>Department</th>
+                <th>Best Score</th>
+                <th>Completed Assessments</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user, best_score, attempts_count in top_staff %}
+                <tr {% if user.id == current_user.id %}class="table-primary fw-bold"{% endif %}>
+                  <td>
+                    {% if loop.index == 1 %}
+                      <span class="fs-4">🥇</span>
+                    {% elif loop.index == 2 %}
+                      <span class="fs-4">🥈</span>
+                    {% elif loop.index == 3 %}
+                      <span class="fs-4">🥉</span>
+                    {% else %}
+                      <span class="badge bg-secondary rounded-circle">{{ loop.index }}</span>
+                    {% endif %}
+                  </td>
+                  <td><b>{{ user.full_name }}</b></td>
+                  <td><small class="text-muted">{{ user.department }}</small></td>
+                  <td><span class="badge bg-success fs-6">{{ best_score }}%</span></td>
+                  <td>{{ attempts_count }} attempts</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p class="text-muted text-center py-4">No completed quiz assessments on the leaderboard yet.</p>
+      {% endif %}
+    </div>
+  </div>
+</div>
+{% endblock %}

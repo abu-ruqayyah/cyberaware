@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Lab Methodology — CyberAware{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+  <div class="col-lg-10">
+    <div class="glass-card p-4 mb-4">
+      <h2 class="fw-bold mb-2"><i class="bi bi-shield-shaded text-danger me-2"></i> Technical Cybersecurity Lab Methodology</h2>
+      <p class="text-muted">Defensive security assessment methodology for controlled laboratory environments</p>
+      <hr>
+
+      <!-- Technical Lab Workflow -->
+      <div class="p-4 bg-dark text-light rounded-4 mb-4 text-center">
+        <h5 class="fw-bold text-warning mb-3"><i class="bi bi-shield-check me-2"></i> Technical Cybersecurity Lab Workflow</h5>
+        <div class="d-flex flex-wrap justify-content-center align-items-center gap-2 font-monospace small">
+          <span class="badge bg-secondary p-2">1. Authorized Lab</span> →
+          <span class="badge bg-info text-dark p-2">2. Observation/Discovery</span> →
+          <span class="badge bg-primary p-2">3. Traffic/Service Analysis</span> →
+          <span class="badge bg-warning text-dark p-2">4. Vulnerability Scan</span> →
+          <span class="badge bg-danger p-2">5. Finding</span> →
+          <span class="badge bg-danger p-2">6. Risk Assessment</span> →
+          <span class="badge bg-success p-2">7. Hardening</span> →
+          <span class="badge bg-success p-2">8. Retest</span> →
+          <span class="badge bg-light text-dark p-2">9. Evidence</span>
+        </div>
+      </div>
+
+      <!-- Scope Boundary Box -->
+      <div class="alert alert-danger border-danger mb-4">
+        <h6 class="fw-bold"><i class="bi bi-exclamation-octagon-fill me-2"></i> Mandatory Authorization & Scope Boundaries</h6>
+        <p class="small mb-0">
+          All technical demonstrations in CyberAware are restricted strictly to:
+          <b>Localhost (127.0.0.1)</b>, <b>Student Virtual Machines</b>, and <b>Intentionally Vulnerable Lab Targets</b> (e.g. Metasploitable, OWASP Juice Shop). Functionality for attacking public websites or unauthorized infrastructure is explicitly omitted.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="border p-3 rounded bg-white">
+            <h5 class="fw-bold text-dark mb-2"><i class="bi bi-tools me-2 text-primary"></i> Kali Linux & Nmap Scanning</h5>
+            <p class="small text-secondary mb-0">
+              Defensive service discovery commands (e.g. <code>nmap -sV -sC 127.0.0.1</code>) identify active ports, service versions, and exposed debug interfaces to formulate port filtering and firewall rules.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="border p-3 rounded bg-white">
+            <h5 class="fw-bold text-dark mb-2"><i class="bi bi-reception-4 me-2 text-info"></i> Wireshark Traffic Analysis</h5>
+            <p class="small text-secondary mb-0">
+              Packet capture demonstrates cleartext HTTP credential exposure versus encrypted HTTPS communication to highlight why TLS/SSL encryption and secure transmission protocols are mandatory.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="border p-3 rounded bg-white">
+            <h5 class="fw-bold text-dark mb-2"><i class="bi bi-bug me-2 text-warning"></i> OWASP ZAP Web Assessment</h5>
+            <p class="small text-secondary mb-0">
+              Automated dynamic scanning against target web applications detects missing security headers (CSP, HSTS, X-Frame-Options), missing CSRF tokens, and input validation vulnerabilities.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="border p-3 rounded bg-white">
+            <h5 class="fw-bold text-dark mb-2"><i class="bi bi-folder-symlink me-2 text-success"></i> Protected Evidence Storage</h5>
+            <p class="small text-secondary mb-0">
+              Lab evidence logs and screenshots are saved in <code>instance/uploads/lab_evidence/</code> outside the public web root. Access is controlled by authenticated Flask routes to prevent unauthorized access.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+{% endblock %}

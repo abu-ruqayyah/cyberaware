@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}Assessment Results — CyberAware{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+  <div class="col-lg-9">
+    
+    <!-- Results Banner Header -->
+    <div class="glass-card p-4 text-center mb-4 border-top border-4 {% if attempt.percentage_score >= 80 %}border-success{% elif attempt.percentage_score >= 60 %}border-warning{% else %}border-danger{% endif %}">
+      <h3 class="fw-bold mb-1">Assessment Completion Scorecard</h3>
+      <p class="text-muted small mb-3">Attempt #{{ attempt.id }} | Participant: <b>{{ attempt.user.full_name }}</b></p>
+
+      <div class="display-3 fw-bold my-2 {% if attempt.percentage_score >= 80 %}text-success{% elif attempt.percentage_score >= 60 %}text-warning{% else %}text-danger{% endif %}">
+        {{ attempt.percentage_score }}%
+      </div>
+
+      <div class="mb-3">
+        <span class="badge fs-6 px-4 py-2 rounded-pill {% if attempt.percentage_score >= 80 %}bg-success{% elif attempt.percentage_score >= 60 %}bg-warning text-dark{% else %}bg-danger{% endif %} shadow-sm">
+          {{ attempt.assessment_level }}
+        </span>
+      </div>
+
+      <div class="d-flex justify-content-center gap-4 text-secondary small fw-semibold mt-3">
+        <div><i class="bi bi-patch-check text-success me-1"></i> Correct: {{ attempt.score_achieved }} / {{ attempt.total_questions }}</div>
+        <div><i class="bi bi-clock me-1"></i> Time Spent: {{ attempt.time_spent_seconds }}s</div>
+      </div>
+
+      <div class="mt-4">
+        <a href="{{ url_for('reports.download_attempt_pdf', attempt_id=attempt.id) }}" class="btn btn-danger btn-lg px-4 shadow">
+          <i class="bi bi-file-earmark-pdf-fill me-2"></i> Download PDF Assessment Report
+        </a>
+      </div>
+    </div>
+
+    <!-- Category Performance Breakdown -->
+    <div class="glass-card p-4 mb-4">
+      <h5 class="fw-bold mb-3"><i class="bi bi-pie-chart-fill text-primary me-2"></i> Category Performance Matrix</h5>
+      
+      <div class="row g-3">
+        {% for cat_name, cat_data in category_summary.items() %}
+          {% set cat_pct = (cat_data.correct / cat_data.total * 100)|round if cat_data.total > 0 else 0 %}
+          <div class="col-md-6">
+            <div class="p-3 border rounded bg-white">
+              <div class="d-flex justify-content-between align-items-center mb-2">
+                <span class="fw-semibold">{{ cat_name }}</span>
+                <span class="badge {% if cat_pct >= 80 %}bg-success{% elif cat_pct >= 60 %}bg-warning{% else %}bg-danger{% endif %}">
+                  {{ cat_data.correct }}/{{ cat_data.total }} ({{ cat_pct }}%)
+                </span>
+              </div>
+              <div class="progress progress-custom">
+                <div class="progress-bar {% if cat_pct >= 80 %}bg-success{% elif cat_pct >= 60 %}bg-warning{% else %}bg-danger{% endif %}" style="width: {{ cat_pct }}%;"></div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    <!-- Educational Remediation & Explanations -->
+    <div class="glass-card p-4">
+      <h5 class="fw-bold mb-3"><i class="bi bi-lightbulb-fill text-warning me-2"></i> Question Review & Remediation Guidance</h5>
+
+      <div class="accordion" id="questionReviewAccordion">
+        {% for ans in attempt.answers %}
+          {% set q = ans.question %}
+          <div class="accordion-item border rounded mb-2 overflow-hidden">
+            <h2 class="accordion-header" id="heading-{{ loop.index }}">
+              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ loop.index }}">
+                <span class="badge me-3 {% if ans.is_correct %}bg-success{% else %}bg-danger{% endif %}">
+                  {% if ans.is_correct %}CORRECT{% else %}INCORRECT{% endif %}
+                </span>
+                <span class="fw-semibold text-dark">{{ loop.index }}. {{ q.question_text[:75] if q else 'N/A' }}...</span>
+              </button>
+            </h2>
+            <div id="collapse-{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#questionReviewAccordion">
+              <div class="accordion-body bg-light">
+                <p><b>Full Question:</b> {{ q.question_text if q else '' }}</p>
+                <div class="alert alert-info border-info py-2 px-3 small mb-2">
+                  <i class="bi bi-info-circle me-1"></i> <b>Explanation:</b> {{ q.explanation if q else '' }}
+                </div>
+                {% if not ans.is_correct and q and q.remediation_advice %}
+                  <div class="alert alert-warning border-warning py-2 px-3 small mb-0">
+                    <i class="bi bi-exclamation-triangle me-1"></i> <b>Remediation Advice:</b> {{ q.remediation_advice }}
+                  </div>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-4">
+        <a href="{{ url_for('quiz.dashboard') }}" class="btn btn-outline-secondary"><i class="bi bi-house me-1"></i> Return to Staff Portal</a>
+        <a href="{{ url_for('quiz.start_quiz') }}" class="btn btn-primary"><i class="bi bi-arrow-repeat me-1"></i> Retake Assessment</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock %}

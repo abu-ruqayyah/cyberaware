@@ -1,0 +1,89 @@
+/* Gamification & Quiz UI Styles */
+
+.quiz-timer-container {
+  background: #0f172a;
+  color: #fff;
+  border-radius: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.2);
+}
+
+.quiz-timer-container.warning {
+  background: #dc2626;
+  animation: pulse-red 1s infinite alternate;
+}
+
+@keyframes pulse-red {
+  from { box-shadow: 0 0 0px rgba(220, 38, 38, 0.5); }
+  to { box-shadow: 0 0 15px rgba(220, 38, 38, 0.9); }
+}
+
+.progress-custom {
+  height: 0.75rem;
+  border-radius: 1rem;
+  background-color: #e2e8f0;
+  overflow: hidden;
+}
+
+.progress-bar-custom {
+  background: linear-gradient(90deg, #2563eb, #3b82f6);
+  transition: width 0.4s ease;
+}
+
+/* Option Cards */
+.option-card {
+  border: 2px solid #e2e8f0;
+  border-radius: 0.75rem;
+  padding: 1rem 1.25rem;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.option-card:hover {
+  border-color: #3b82f6;
+  background: #eff6ff;
+  transform: translateX(4px);
+}
+
+.option-card.selected {
+  border-color: #2563eb;
+  background: #dbeafe;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.option-card input[type="radio"] {
+  width: 1.2rem;
+  height: 1.2rem;
+  accent-color: #2563eb;
+}
+
+/* Badges Showcase */
+.badge-card {
+  text-align: center;
+  padding: 1.25rem;
+  border-radius: 1rem;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.2s ease;
+}
+
+.badge-card:hover {
+  transform: scale(1.05);
+}
+
+.badge-icon-lg {
+  font-size: 2.5rem;
+  color: #d97706;
+  margin-bottom: 0.5rem;
+}

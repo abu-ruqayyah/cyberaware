@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}User Management — CyberAware{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <div>
+    <h2 class="fw-bold mb-1"><i class="bi bi-people text-primary me-2"></i> User Directory</h2>
+    <p class="text-muted small mb-0">Registered staff participants and security administrators</p>
+  </div>
+</div>
+
+<div class="glass-card p-4">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle">
+      <thead>
+        <tr>
+          <th>User ID</th>
+          <th>Username</th>
+          <th>Full Name</th>
+          <th>Email</th>
+          <th>Department</th>
+          <th>Role</th>
+          <th>Created At</th>
+          <th>Last Login</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for u in users %}
+          <tr>
+            <td><b>#{{ u.id }}</b></td>
+            <td>{{ u.username }}</td>
+            <td><b>{{ u.full_name }}</b></td>
+            <td>{{ u.email }}</td>
+            <td><span class="badge bg-secondary-subtle text-secondary">{{ u.department }}</span></td>
+            <td>
+              <span class="badge {% if u.role == 'ADMIN' %}bg-danger{% else %}bg-primary{% endif %}">
+                {{ u.role }}
+              </span>
+            </td>
+            <td><small>{{ u.created_at.strftime('%Y-%m-%d') }}</small></td>
+            <td><small>{{ u.last_login.strftime('%Y-%m-%d %H:%M') if u.last_login else 'Never' }}</small></td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

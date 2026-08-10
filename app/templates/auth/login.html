@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %}Log In — CyberAware{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-5">
+  <div class="col-md-5">
+    <div class="glass-card p-4">
+      <div class="text-center mb-4">
+        <div class="p-3 bg-primary text-white rounded-circle d-inline-block mb-2 shadow">
+          <i class="bi bi-shield-lock-fill fs-2"></i>
+        </div>
+        <h2 class="fw-bold">Sign In to CyberAware</h2>
+        <p class="text-muted small">Enter your credentials to access staff quizzes or administrative functions</p>
+      </div>
+
+      <form method="POST" action="{{ url_for('auth.login') }}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+        <div class="mb-3">
+          <label for="username" class="form-label fw-semibold">Username or Email</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-person"></i></span>
+            <input type="text" class="form-control" id="username" name="username" placeholder="e.g. zainab or admin@cyberaware.local" required autofocus>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="password" class="form-label fw-semibold">Password</label>
+          <div class="input-group">
+            <span class="input-group-text"><i class="bi bi-key"></i></span>
+            <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-semibold shadow-sm">
+          <i class="bi bi-box-arrow-in-right me-1"></i> Log In
+        </button>
+      </form>
+
+      <hr class="my-4">
+
+      <div class="text-center text-muted small">
+        Need a staff training account? <a href="{{ url_for('auth.register') }}" class="text-primary fw-semibold">Register Staff Account</a>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

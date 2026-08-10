@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}{% if question %}Edit Question #{{ question.id }}{% else %}Add New Question{% endif %} — CyberAware{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+  <div class="col-lg-8">
+    <div class="glass-card p-4">
+      <h3 class="fw-bold mb-3">
+        {% if question %}<i class="bi bi-pencil-square text-primary me-2"></i> Edit Question #{{ question.id }}{% else %}<i class="bi bi-plus-circle text-primary me-2"></i> Add New Security Question{% endif %}
+      </h3>
+
+      <form method="POST" action="{% if question %}{{ url_for('admin.question_edit', id=question.id) }}{% else %}{{ url_for('admin.question_create') }}{% endif %}">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label for="category_id" class="form-label fw-semibold">Security Category</label>
+            <select name="category_id" id="category_id" class="form-select" required>
+              <option value="">-- Select Category --</option>
+              {% for cat in categories %}
+                <option value="{{ cat.id }}" {% if question and question.category_id == cat.id %}selected{% endif %}>{{ cat.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="difficulty" class="form-label fw-semibold">Difficulty Level</label>
+            <select name="difficulty" id="difficulty" class="form-select" required>
+              <option value="EASY" {% if question and question.difficulty == 'EASY' %}selected{% endif %}>Easy</option>
+              <option value="MEDIUM" {% if not question or question.difficulty == 'MEDIUM' %}selected{% endif %}>Medium</option>
+              <option value="HARD" {% if question and question.difficulty == 'HARD' %}selected{% endif %}>Hard</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="question_text" class="form-label fw-semibold">Question Text</label>
+          <textarea name="question_text" id="question_text" class="form-control" rows="3" required>{% if question %}{{ question.question_text }}{% endif %}</textarea>
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label fw-semibold">Multiple Choice Options (Select radio button for CORRECT answer)</label>
+          <div id="optionsContainer">
+            {% if question and question.options %}
+              {% for opt in question.options %}
+                <div class="input-group mb-2">
+                  <div class="input-group-text">
+                    <input class="form-check-input mt-0" type="radio" name="correct_option" value="{{ loop.index0 }}" {% if opt.is_correct %}checked{% endif %} required>
+                  </div>
+                  <input type="text" name="option_text[]" class="form-control" value="{{ opt.option_text }}" required>
+                </div>
+              {% endfor %}
+            {% else %}
+              <div class="input-group mb-2">
+                <div class="input-group-text">
+                  <input class="form-check-input mt-0" type="radio" name="correct_option" value="0" checked required>
+                </div>
+                <input type="text" name="option_text[]" class="form-control" placeholder="Option 1 (Correct Answer)" required>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-text">
+                  <input class="form-check-input mt-0" type="radio" name="correct_option" value="1" required>
+                </div>
+                <input type="text" name="option_text[]" class="form-control" placeholder="Option 2 (Distractor)" required>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-text">
+                  <input class="form-check-input mt-0" type="radio" name="correct_option" value="2" required>
+                </div>
+                <input type="text" name="option_text[]" class="form-control" placeholder="Option 3 (Distractor)" required>
+              </div>
+              <div class="input-group mb-2">
+                <div class="input-group-text">
+                  <input class="form-check-input mt-0" type="radio" name="correct_option" value="3" required>
+                </div>
+                <input type="text" name="option_text[]" class="form-control" placeholder="Option 4 (Distractor)" required>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="explanation" class="form-label fw-semibold">Educational Explanation (Shown after answering)</label>
+          <textarea name="explanation" id="explanation" class="form-control" rows="2" required>{% if question %}{{ question.explanation }}{% endif %}</textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="remediation_advice" class="form-label fw-semibold">Targeted Remediation Advice</label>
+          <textarea name="remediation_advice" id="remediation_advice" class="form-control" rows="2">{% if question %}{{ question.remediation_advice }}{% endif %}</textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <a href="{{ url_for('admin.question_list') }}" class="btn btn-outline-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary px-4 fw-semibold"><i class="bi bi-check-circle me-1"></i> Save Question</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

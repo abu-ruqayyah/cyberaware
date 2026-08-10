@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block title %}Upload Lab Evidence — CyberAware{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center my-4">
+  <div class="col-lg-8">
+    <div class="glass-card p-4">
+      <h3 class="fw-bold mb-3"><i class="bi bi-upload text-primary me-2"></i> Upload Lab Evidence Record</h3>
+      <p class="text-muted small mb-4">Document defensive security testing conducted strictly within authorized lab bounds</p>
+
+      <form method="POST" action="{{ url_for('lab.upload') }}" enctype="multipart/form-data">
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+        <div class="row g-3 mb-3">
+          <div class="col-md-6">
+            <label for="title" class="form-label fw-semibold">Evidence Title</label>
+            <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Localhost Port Discovery Scan" required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="category" class="form-label fw-semibold">Testing Category</label>
+            <select name="category" id="category" class="form-select" required>
+              <option value="Network Scanning">Network Scanning & Discovery</option>
+              <option value="Traffic Analysis">Traffic & Packet Analysis</option>
+              <option value="Web Vulnerability">Web Application Assessment</option>
+              <option value="System Hardening">System Hardening & Configuration</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="tool" class="form-label fw-semibold">Security Tool</label>
+            <select name="tool" id="tool" class="form-select" required>
+              <option value="Nmap">Nmap Network Mapper</option>
+              <option value="Wireshark">Wireshark Packet Analyzer</option>
+              <option value="OWASP ZAP">OWASP ZAP Dynamic Scanner</option>
+              <option value="Kali Linux">Kali Linux Tools Suite</option>
+            </select>
+          </div>
+
+          <div class="col-md-4">
+            <label for="target_environment" class="form-label fw-semibold">Authorized Target</label>
+            <input type="text" class="form-control" id="target_environment" name="target_environment" placeholder="e.g. Localhost (127.0.0.1) or VM" required>
+          </div>
+
+          <div class="col-md-4">
+            <label for="risk" class="form-label fw-semibold">Risk Rating</label>
+            <select name="risk" id="risk" class="form-select" required>
+              <option value="LOW">Low Risk</option>
+              <option value="MEDIUM" selected>Medium Risk</option>
+              <option value="HIGH">High Risk</option>
+              <option value="CRITICAL">Critical Risk</option>
+            </select>
+          </div>
+
+          <div class="col-md-6">
+            <label for="date_performed" class="form-label fw-semibold">Date Performed</label>
+            <input type="date" class="form-control" id="date_performed" name="date_performed" required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="evidence_file" class="form-label fw-semibold">Evidence File (Screenshot/Log/PDF)</label>
+            <input type="file" class="form-control" id="evidence_file" name="evidence_file" accept=".png,.jpg,.jpeg,.pdf,.txt" required>
+            <div class="form-text">File will be stored securely in instance/uploads/lab_evidence/</div>
+          </div>
+        </div>
+
+        <div class="mb-3">
+          <label for="description" class="form-label fw-semibold">Test Description & Methodology</label>
+          <textarea name="description" id="description" class="form-control" rows="2" required placeholder="Outline the objective and setup of the test..."></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="finding" class="form-label fw-semibold">Technical Finding</label>
+          <textarea name="finding" id="finding" class="form-control" rows="2" required placeholder="Describe the vulnerability or service behavior discovered..."></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="recommendation" class="form-label fw-semibold">Defensive Recommendation</label>
+          <textarea name="recommendation" id="recommendation" class="form-control" rows="2" required placeholder="Recommended defensive control..."></textarea>
+        </div>
+
+        <div class="mb-4">
+          <label for="remediation" class="form-label fw-semibold">Remediation & Retest Verification</label>
+          <textarea name="remediation" id="remediation" class="form-control" rows="2" required placeholder="Describe hardening steps taken and retest results..."></textarea>
+        </div>
+
+        <div class="d-flex justify-content-between">
+          <a href="{{ url_for('lab.index') }}" class="btn btn-outline-secondary">Cancel</a>
+          <button type="submit" class="btn btn-primary px-4 fw-semibold"><i class="bi bi-upload me-1"></i> Upload Evidence</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
