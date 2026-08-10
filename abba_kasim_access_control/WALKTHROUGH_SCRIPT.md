@@ -1,0 +1,24 @@
+# 🎬 Abba Kasim — Access Control Audit Capstone Presentation Script (2-3 Minutes)
+
+**Student Name**: Abba Kasim  
+**Project Title**: Access Control Audit & Least Privilege Evaluation Platform  
+**Program**: 3MTT (3 Million Technical Talent) Program — Cybersecurity Track  
+
+---
+
+### ⏱️ Video Presentation Outline (Target: 2 min 30 sec)
+
+| Timecode | Screen Action | Narration Script |
+| :--- | :--- | :--- |
+| **0:00 - 0:25** | Open Landing Page (`/`) showing Hero Title and Least Privilege Score badge. | *"Hello evaluators, my name is **Abba Kasim**, and this is my 3MTT Cybersecurity Capstone Project titled **Access Control Audit & Least Privilege Evaluation Platform**.<br/><br/>Over-privilege is a primary security risk in modern organizations. When users accumulate unnecessary administrative or financial rights, it leads to privilege escalation, data exfiltration, and internal fraud. My application systematically audits organizational roles against the Principle of Least Privilege (PoLP)."* |
+| **0:25 - 0:55** | Navigate to Command Center Dashboard (`/dashboard`) showing Chart.js role risk breakdown and KPI cards. | *"Here in the **Command Center Dashboard**, security auditors get an immediate high-level view of organizational access health. We see our **Least Privilege Score (85%)**, the total number of audited roles, active Separation of Duties conflicts, and granular permission distribution.<br/><br/>Notice the Role Risk Distribution chart, which categorizes roles by risk level based on the sensitivity of their assigned entitlements."* |
+| **0:55 - 1:30** | Click on **Role Matrix** (`/audit/roles`) showing the role vs permission grid. Demonstrate revoking a permission. | *"Next, we inspect the **Role & Permission Entitlement Matrix**. This grid maps organizational roles—such as System Admin, Payroll Specialist, and Over-Privileged HR Manager—against granular system permissions.<br/><br/>As an auditor, I can perform one-click right-sizing. For example, if I notice that the HR Manager role has been assigned root execution rights (`exec:root_sudo`), I can click to immediately revoke that permission, enforcing least privilege in real time."* |
+| **1:30 - 2:05** | Navigate to **Audit Findings** (`/audit/findings`) and click **Download PDF Report**. | *"In the **Audit Findings** view, our automated audit engine highlights specific vulnerability categories such as **Separation of Duties (SoD) toxic pairs**—for instance, when a single role has both `write:payroll` and `approve:payroll_payout`.<br/><br/>The system provides step-by-step hardening recommendations for each finding, and allows auditors to generate professional **ReportLab PDF Executive Reports** and **CSV audit spreadsheets** for IT compliance sign-off."* |
+| **2:05 - 2:30** | Navigate to **Safe Lab Evidence** (`/lab/methodology`) showing VirtualBox / Kali / Wireshark / Nmap documentation. | *"Finally, the project includes a **Technical Safe Cyber Lab** component. Using VirtualBox, Kali Linux, Wireshark, Nmap, and OWASP ZAP in an isolated virtual lab (`192.168.56.0/24`), I conducted packet analysis and broken access control testing against authorized target VMs.<br/><br/>All evidence artifacts are stored and documented within the platform. Thank you for watching!"* |
+
+---
+
+### 💡 Recording Tips for Abba Kasim:
+1. **Screen Recorder**: Use OBS Studio, Loom, or Windows Game Bar (`Win + G`) to record your screen and microphone.
+2. **Resolution**: Record at 1080p full screen.
+3. **Pacing**: Speak clearly and follow the timecodes above to keep your video strictly within 2 to 3 minutes.
