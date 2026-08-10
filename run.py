@@ -56,17 +56,24 @@ def seed_database():
         admin_email = app.config['ADMIN_EMAIL']
         admin_password = app.config['ADMIN_PASSWORD']
 
-        if not User.query.filter_by(role='ADMIN').first():
-            admin = User(
+        admin_user = User.query.filter_by(role='ADMIN').first()
+        if not admin_user:
+            admin_user = User(
                 username=admin_username,
                 email=admin_email,
                 full_name='Security Trainer Admin',
                 department='IT Security & Compliance',
                 role='ADMIN'
             )
-            admin.set_password(admin_password)
-            db.session.add(admin)
+            admin_user.set_password(admin_password)
+            db.session.add(admin_user)
             print(f"Initial Admin account created: username='{admin_username}'")
+        else:
+            # Synchronize admin credentials with Render environment variables
+            admin_user.username = admin_username
+            admin_user.email = admin_email
+            admin_user.set_password(admin_password)
+            print(f"Admin account credentials updated: username='{admin_username}'")
 
         # Seed Demo Questions and Staff ONLY if SEED_DEMO_DATA is enabled
         if app.config.get('SEED_DEMO_DATA', True):
