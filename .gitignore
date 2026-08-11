@@ -16,6 +16,9 @@ instance/*
 !instance/.gitkeep
 instance/uploads/*
 !instance/uploads/.gitkeep
+*.db
+khadija_bukar_access_control/instance/*
+!khadija_bukar_access_control/instance/.gitkeep
 
 # IDE
 .vscode/

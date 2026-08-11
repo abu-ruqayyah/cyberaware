@@ -12,7 +12,7 @@
 ## 🎯 Executive Summary
 Over-privilege is a primary threat vector in modern enterprise environments. When users and roles accumulate unnecessary administrative, financial, or system privileges beyond their operational requirements, it leads to privilege escalation, insider threat abuse, and compliance violations.
 
-The **Access Control Audit Platform** (`KhadijaAccessAudit`) systematically evaluates role-based access control (RBAC) structures against the **Principle of Least Privilege (PoLP)** and **NIST SP 800-53 Access Control** standards. The application features:
+The **Access Control Audit Platform** (`KhadijaAccessAudit`) systematically evaluates role-based access control (RBAC) structures aligned with **NIST SP 800-53 Access Control** concepts and the **Principle of Least Privilege (PoLP)**. The application features:
 - **Interactive Role Review Matrix**: Map roles to granular permissions with real-time entitlement right-sizing.
 - **Automated Audit Engine**: Calculates an organizational Least Privilege Score (LPS) and detects toxic Separation of Duties (SoD) permission pairs.
 - **Executive Reporting Engine**: Generates dynamic ReportLab PDF audit certificates and CSV spreadsheets.

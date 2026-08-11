@@ -11,7 +11,15 @@ os.makedirs(REPORTS_DIR, exist_ok=True)
 os.makedirs(LAB_EVIDENCE_DIR, exist_ok=True)
 
 class Config:
-    SECRET_KEY = os.environ.get('SECRET_KEY', 'khadija-bukar-access-control-key-2026-secure')
+    ENV = os.environ.get('FLASK_ENV', 'development')
+    
+    # Secret Key Configuration
+    _raw_secret_key = os.environ.get('SECRET_KEY')
+    if not _raw_secret_key:
+        if ENV == 'production':
+            raise RuntimeError("CRITICAL SECURITY ERROR: 'SECRET_KEY' environment variable must be set in production.")
+        _raw_secret_key = 'dev-fallback-khadija-access-control-key-2026'
+    SECRET_KEY = _raw_secret_key
     
     # Environment-driven database configuration
     raw_db_url = os.environ.get('DATABASE_URL')
@@ -40,5 +48,12 @@ class Config:
     # Admin Pre-seeding
     ADMIN_USERNAME = os.environ.get('ADMIN_USERNAME', 'khadija_auditor')
     ADMIN_EMAIL = os.environ.get('ADMIN_EMAIL', 'khadijahbukarbiu@gmail.com')
-    ADMIN_PASSWORD = os.environ.get('ADMIN_PASSWORD', 'AuditAdminPassword123!')
+    
+    _raw_admin_pw = os.environ.get('ADMIN_PASSWORD')
+    if not _raw_admin_pw:
+        if ENV == 'production':
+            raise RuntimeError("CRITICAL SECURITY ERROR: 'ADMIN_PASSWORD' environment variable must be set in production.")
+        _raw_admin_pw = 'AuditAdminPassword123!'
+    ADMIN_PASSWORD = _raw_admin_pw
+    
     SEED_DEMO_DATA = os.environ.get('SEED_DEMO_DATA', 'True').lower() == 'true'

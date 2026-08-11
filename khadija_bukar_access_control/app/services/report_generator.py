@@ -14,7 +14,7 @@ class AuditReportGenerator:
 
     @classmethod
     def generate_pdf_report(cls, audit_session_id, output_path):
-        session = AuditSession.query.get(audit_session_id)
+        session = db.session.get(AuditSession, audit_session_id)
         if not session:
             raise ValueError(f"AuditSession #{audit_session_id} not found.")
 
@@ -106,7 +106,7 @@ class AuditReportGenerator:
         story.append(Spacer(1, 15))
 
         story.append(Paragraph("1. Executive Summary & Compliance Overview", heading2_style))
-        exec_text = f"An automated Access Control Audit was conducted by <b>Khadija Bukar</b> to evaluate compliance with the <b>Principle of Least Privilege (PoLP)</b>, NIST SP 800-53 Access Control standards, and Separation of Duties (SoD) guidelines. The evaluation identified <b>{len(findings)} security findings</b> across the organization's role and user access matrix."
+        exec_text = f"An automated Access Control Audit was conducted by <b>Khadija Bukar</b> to evaluate alignment with the <b>Principle of Least Privilege (PoLP)</b>, NIST SP 800-53 Access Control concepts, and Separation of Duties (SoD) guidelines. The evaluation identified <b>{len(findings)} security findings</b> across the organization's role and user access matrix."
         story.append(Paragraph(exec_text, body_style))
         story.append(Spacer(1, 10))
 
@@ -165,7 +165,7 @@ class AuditReportGenerator:
 
     @classmethod
     def generate_csv_report(cls, audit_session_id, output_path):
-        session = AuditSession.query.get(audit_session_id)
+        session = db.session.get(AuditSession, audit_session_id)
         if not session:
             raise ValueError(f"AuditSession #{audit_session_id} not found.")
 

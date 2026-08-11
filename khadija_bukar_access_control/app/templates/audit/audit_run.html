@@ -16,6 +16,7 @@
                 </div>
 
                 <form method="POST" action="{{ url_for('audit.run_audit') }}">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="mb-4">
                         <label for="session_title" class="form-label fw-medium">Audit Session Title</label>
                         <input type="text" class="form-control form-control-lg" id="session_title" name="session_title" value="Least Privilege & SoD Compliance Audit" required>

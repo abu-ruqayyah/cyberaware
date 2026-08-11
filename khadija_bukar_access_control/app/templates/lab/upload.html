@@ -16,6 +16,7 @@
                 </div>
 
                 <form method="POST" action="{{ url_for('lab.upload_evidence') }}" enctype="multipart/form-data">
+                    <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                     <div class="mb-3">
                         <label for="title" class="form-label fw-medium">Evidence Title</label>
                         <input type="text" class="form-control" id="title" name="title" placeholder="e.g. Wireshark PCAP - Unencrypted Access Token Traffic" required>

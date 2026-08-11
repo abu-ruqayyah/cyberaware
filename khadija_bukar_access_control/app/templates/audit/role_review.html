@@ -89,8 +89,9 @@
                                 {% for r in roles %}
                                 <td class="text-center">
                                     {% if p in r.permissions %}
-                                        {% if current_user.is_admin() %}
+                                         {% if current_user.is_admin() %}
                                         <form method="POST" action="{{ url_for('audit.toggle_permission', role_id=r.id) }}" class="d-inline">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                             <input type="hidden" name="permission_id" value="{{ p.id }}">
                                             <button type="submit" class="btn btn-sm btn-outline-success rounded-circle shadow-sm" title="Revoke Permission">
                                                 <i class="bi bi-check-lg fw-bold"></i>
@@ -102,6 +103,7 @@
                                     {% else %}
                                         {% if current_user.is_admin() %}
                                         <form method="POST" action="{{ url_for('audit.toggle_permission', role_id=r.id) }}" class="d-inline">
+                                            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                                             <input type="hidden" name="permission_id" value="{{ p.id }}">
                                             <button type="submit" class="btn btn-sm btn-light border rounded-circle text-muted opacity-50" title="Grant Permission">
                                                 <i class="bi bi-plus-lg"></i>

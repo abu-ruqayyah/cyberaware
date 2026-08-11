@@ -15,6 +15,7 @@ def app():
     app.config['SECRET_KEY'] = 'test-secret-key-khadija-bukar'
 
     with app.app_context():
+        db.drop_all()
         db.create_all()
         
         if not Permission.query.filter_by(code='exec:root_sudo').first():
@@ -34,6 +35,7 @@ def app():
         yield app
 
         db.session.remove()
+        db.drop_all()
         db.engine.dispose()
 
     if os.path.exists(test_db_path):

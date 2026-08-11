@@ -6,10 +6,12 @@ def test_sod_toxic_pair_detection(app):
         p_write = Permission.query.filter_by(code='write:payroll').first()
         p_approve = Permission.query.filter_by(code='approve:payroll_payout').first()
         
-        toxic_role = Role(name='Toxic Payroll Role', department='Finance')
-        toxic_role.permissions.extend([p_write, p_approve])
-        db.session.add(toxic_role)
-        db.session.commit()
+        toxic_role = Role.query.filter_by(name='Toxic Payroll Role').first()
+        if not toxic_role:
+            toxic_role = Role(name='Toxic Payroll Role', department='Finance')
+            toxic_role.permissions.extend([p_write, p_approve])
+            db.session.add(toxic_role)
+            db.session.commit()
         
         session = AccessControlAuditEngine.run_full_audit(executed_by='Test Runner')
         
